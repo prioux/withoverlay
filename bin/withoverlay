@@ -26,14 +26,12 @@ Options
 
   -v Make this program a bit more verbose. Normally the program is
      silent about all its activities and will only print whatever output
-     the command produces. Note that the initial creation of the overlay
-     can take some time, so it recommanded to use the verbose option
-     with it. That way the user can see the progress of this phase.
+     the command produces.
 
 Arguments:
 
   overlaypath
- 
+
     The path to an overlay file; if the file doesn't exist it will
     be created, provided a suffix "=overlaysize" is provided. If the
     overlap file exists, the suffix will be ignored. The value is a
@@ -129,15 +127,15 @@ else
   fi
 
   log "Creating new overlay disk space '$overlaypath' of $overlaysize GB..."
-  test "$overlaysize" -gt 30 && log "... this will take some time."
-  dd_status="none"
-  test -n "$VERBOSE" && dd_status="progress"
-  SECONDS=0
-  dd if=/dev/zero of="$overlaypath" bs=1G count=$overlaysize status=$dd_status || exit
-  DD_SECONDS=$SECONDS
+  one_gibibyte=$(( 1024 * 1024 * 1024 )) # binary gigabyte
+  overlay_bytes=$(( $overlaysize * $one_gibibyte ))
+  perl -e 'open(O,">'"$overlaypath"'");'   \
+       -e 'sysseek(O,'$overlay_bytes',0);' \
+       -e 'sysseek(O,-1,1);'               \
+       -e 'syswrite(O,"\0");'              \
+       -e 'close(O);' || exit
 
   log "Formating it with ext3 filesystem"
-  test "$overlaysize" -gt 10 && log "... be patient, this will take some time."
   # The default number of inodes in ext3 is way to high for modern
   # large filesystems, 2M per terabyte is my rule of thumb
   num_inodes=$(( 2000 * overlaysize ))
