@@ -14,6 +14,10 @@ and /tmp). Overlays cover the entire file system down from the root, /,
 but typically the only writable place is directlry under "/home", so
 programs should store persistent data in "/home/choosethis".
 
+## Requirements:
+
+Singularity 3.2 or better is absolutely necessary.
+
 ## Options:
 
 * -v
@@ -81,3 +85,17 @@ This will add a log message with words words words.
   withoverlay hello.img=5 planet.img moon_maker   --name charon --parent pluto
   withoverlay hello.img=5 planet.img getlog
 ```
+
+## Notes
+
+Do not run this on MacOS; before the script is even able to crash
+when it attempts to run singularity, it will have created the empty
+placeholder file for the overlay filesystem, and since MacOS doesn't
+support sparse files (or at least, the commands here do not create
+a file with holes), you'll end up with a huge chunk of your disk space
+missing.
+
+## Author
+
+Pierre Rioux
+July 2019

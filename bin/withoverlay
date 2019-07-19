@@ -141,11 +141,9 @@ else
   num_inodes=$(( 2000 * overlaysize ))
   mkfs_quiet="-q"
   test -n "$VERBOSE" && mkfs_quiet=""
-  SECONDS=0
   mkfs.ext3 $mkfs_quiet -F -m 0 -N $num_inodes "$overlaypath" || exit
-  MKFS_SECONDS=$SECONDS
 
-  internal_log "Created overlay file in $DD_SECONDS seconds, mkfs in $SECONDS seconds"
+  internal_log "Created initial overlay file as ext3 filesystem $overlaypath with $overlaysize GB"
 fi
 
 #---------------------------
