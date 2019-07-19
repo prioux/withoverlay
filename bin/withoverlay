@@ -142,7 +142,7 @@ else
   mkfs_quiet="-q"
   test -n "$VERBOSE" && mkfs_quiet=""
   SECONDS=0
-  mkfs.ext3 $mkfs_quiet -F -N $num_inodes "$overlaypath" || exit
+  mkfs.ext3 $mkfs_quiet -F -m 0 -N $num_inodes "$overlaypath" || exit
   MKFS_SECONDS=$SECONDS
 
   internal_log "Created overlay file in $DD_SECONDS seconds, mkfs in $SECONDS seconds"
