@@ -31,12 +31,12 @@ with it. That way the user can see the progress of this phase.
 ## Arguments:
 
 ### overlaypath
- 
+
 The path to an overlay file; if the file doesn't exist it will
 be created, provided a suffix "=overlaysize" is provided. If the
-overlap file exists, the suffix will be ignored. The value is a
+overlay file exists, the suffix will be ignored. The value is a
 size in gigabytes, e.g hello.img=20 means use the file 'hello.img'
- and create it with a size of 20 gigabytes if needed.
+and create it with a size of 20 gigabytes if needed.
 
 ### containerimage
 
@@ -46,10 +46,10 @@ command.
 ### command [args]
 
 A command or program with arguments. Note that the command will be
-passed as-is to the 'singularity exec' command, and hanlding of
-single quoted / double quoted arguments are tricky. We recommand
-wrapping any complex set of commands within a shell wrapper and
-executing that wrapper as a simple command here instead.
+passed as-is to the 'singularity exec' command, and handling of
+single quoted or double quoted arguments is tricky. It is better
+to wrap any complex set of commands within a shell wrapper and
+execute that wrapper as a single command instead.
 
 Two special commands are supported:
 
